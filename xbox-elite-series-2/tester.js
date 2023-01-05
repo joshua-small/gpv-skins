@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     http:www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,42 +17,41 @@
  */
 
 var tester = {
-  // If the number exceeds this in any way, we treat the label as active
-  // and highlight it.
+
+  // If the number exceeds this in any way, we treat the label as active and highlight it.
   VISIBLE_THRESHOLD: 0.25,
+
   // How far can a stick move on screen.
   STICK_OFFSET: 22,
 
-  //If stick curving should be enabled or not
+  // If stick curving should be enabled or not
   STICK_CURVING: 1,
 
   TRIGGER_DISPLAY_TYPE: 0,
 
-  // How “deep” does an analogue button need to be depressed to consider it
-  // a button down.
+  // How “deep” does an analogue button need to be depressed to consider it a button down.
 
-  //For controllers like the Dualshock 3, which have analogue buttons instead of digital ones
+  // For controllers like the Dualshock 3, which have analogue buttons instead of digital ones
   ANALOGUE_BUTTON_THRESHOLD: 0.25,
-  //Analogue stick threshold
+  // Analogue stick threshold
   ANALOGUE_STICK_THRESHOLD: 0.25,
-  //Threshold for digital versions of analog buttons
+  // Threshold for digital versions of analog buttons
   DIGITAL_THRESHOLD: 0.1,
 
-  //Whether or not to start
+  // Whether or not to start
   EVENT_LISTEN: 0,
-  //ID of gamepad being monitored for input
+  // ID of gamepad being monitored for input
   MONITOR_ID: "",
 
-  //Rotation limit
+  // Rotation limit
   ROTATE_BOUNDARY: 120,
 
-  //Snapshot object to test against when making remappings
+  // Snapshot object to test against when making remappings
   SNAPSHOT: {},
 
   MONITOR_TYPE: "",
 
-  //An object list of inputs that are disabled from monitoring at the request of the user. This helps when pesky
-  // axes/buttons are interfering with the proper capture of data by constantly changing values.
+  // An object list of inputs that are disabled from monitoring at the request of the user. This helps when pesky axes/buttons are interfering with the proper capture of data by constantly changing values.
   DISABLED_INPUTS: {},
 
   absDiff: function (a, b) {
@@ -78,32 +77,31 @@ var tester = {
   processQueueCall: 0,
 
   init: function () {
-    //        tester.updateMode();
+    // tester.updateMode();
     tester.updateGamepads()
   },
 
-  /**
-   * Tell the user the browser doesn’t support Gamepad API.
-   */
+  // Tell the user the browser doesn’t support Gamepad API.
+
   showNotSupported: function () {
     document.querySelector("#no-gamepad-support").classList.add("visible")
   },
 
-  /**
-   * Update the gamepads on the screen, creating new elements from the
-   * template.
-   */
+  // Update the gamepads on the screen, creating new elements from the template.
+
   updateGamepads: function (gamepads) {
     var els = document.querySelectorAll(".controller:not(.template)")
     for (var i = 0, el; (el = els[i]); i++) {
       el.classList.add("disconnected")
       $("#player-base").val("None").trigger("change")
-      //            el.parentNode.removeChild(el);
+      // el.parentNode.removeChild(el);
     }
+
     var els2 = document.querySelectorAll("#player-base [value]")
     for (var i = 0, el; (el = els2[i]); i++) {
       el.disabled = true
     }
+
     var els3 = document.querySelectorAll(".raw-outputs:not(.template)")
     for (var i = 0, el; (el = els3[i]); i++) {
       el.remove()
@@ -132,6 +130,7 @@ var tester = {
               bEl.title = "Button " + b
               newRawMap.querySelector(".buttons").appendChild(bEl)
             }
+
             for (var a in gamepad.axes) {
               var aEl = document.createElement("li")
               aEl.setAttribute("data-shortname", "Axis " + a)
@@ -140,6 +139,7 @@ var tester = {
               aEl.title = "Axis " + a
               newRawMap.querySelector(".axes").appendChild(aEl)
             }
+
             var nameEl = document.createElement("h2")
             nameEl.innerHTML = gamepad.id
             newRawMap.insertBefore(nameEl, newRawMap.firstChild)
@@ -148,14 +148,12 @@ var tester = {
 
           var el = document.getElementById("gamepad-" + i)
 
-          //                    el.id = 'gamepad-' + i;
-          //                    el.className = 'controller';
+          // el.id = 'gamepad-' + i;el.className = 'controller';
           el.querySelector(".quadrant").classList.add("p" + i)
           el.classList.remove("disconnected")
-          //                    el.querySelector('.name').innerHTML = gamepad.id;
-          //                    el.querySelector('.index').innerHTML = gamepad.index;
+          // el.querySelector('.name').innerHTML = gamepad.id;el.querySelector('.index').innerHTML = gamepad.index;
 
-          //                    document.querySelector('#gamepads').appendChild(el);
+          // document.querySelector('#gamepads').appendChild(el);
 
           padsConnected = true
         }
@@ -176,7 +174,7 @@ var tester = {
   },
 
   queueButton: function (value, gamepadId, id) {
-    //copy value ... because reference
+    // copy value ... because reference
     var newVal = jQuery.extend({}, value)
 
     tester.updateQueue.enqueue([Date.now() + tester.DELAY_TIME_MS, tester.updateButton, [newVal, gamepadId, id]])
@@ -184,7 +182,7 @@ var tester = {
   },
 
   queueStick: function (value, className, gamepadId, id) {
-    //copy value needed? don't know
+    // copy value needed? don't know
     var newVal = jQuery.extend({}, value)
 
     tester.updateQueue.enqueue([Date.now() + tester.DELAY_TIME_MS, tester.updateStick, [newVal, className, gamepadId, id]])
@@ -192,7 +190,7 @@ var tester = {
   },
 
   queueTrigger: function (value, gamepadId, id) {
-    //copy value needed? don't know
+    // copy value needed? don't know
     var newVal = jQuery.extend({}, value)
 
     tester.updateQueue.enqueue([Date.now() + tester.DELAY_TIME_MS, tester.updateTrigger, [newVal, gamepadId, id]])
@@ -200,7 +198,7 @@ var tester = {
   },
 
   queueTriggerDigital: function (value, gamepadId, id) {
-    //copy value ... because reference
+    // copy value ... because reference
     var newVal = jQuery.extend({}, value)
 
     tester.updateQueue.enqueue([Date.now() + tester.DELAY_TIME_MS, tester.updateTriggerDigital, [newVal, gamepadId, id]])
@@ -208,20 +206,20 @@ var tester = {
   },
 
   queueAxis: function (value, valueV, gamepadId, stickId) {
-    //copy value not needed?
+    // copy value not needed?
     tester.updateQueue.enqueue([Date.now() + tester.DELAY_TIME_MS, tester.updateAxis, [value, valueV, gamepadId, stickId]])
     tester.processQueue()
   },
 
-  /**
-   * Update a given button on the screen.
-   */
+  // Update a given button on the screen.
+
   updateButton: function (value, gamepadId, id) {
     var gamepadEl = document.querySelector("#gamepad-" + gamepadId)
     var newValue = value
     if (typeof value == "object") {
       var newValue = value.value
     }
+
     // Update the button visually.
 
     var buttonEl = gamepadEl.querySelector('[data-name="' + id + '"]')
@@ -235,15 +233,15 @@ var tester = {
     }
   },
 
-  /**
-   * Update a the fight stick using the name provided
-   */
+  // Update a the fight stick using the name provided
+
   updateStick: function (value, className, gamepadId, id) {
     var gamepadEl = document.querySelector("#gamepad-" + gamepadId)
     var newValue = value
     if (typeof value == "object") {
       var newValue = value.value
     }
+
     // Update the button visually.
 
     var buttonEl = gamepadEl.querySelector('[data-name="' + id + '"]')
@@ -271,7 +269,7 @@ var tester = {
       if (tester.TRIGGER_DISPLAY_TYPE == 1) {
         triggerEl.style.opacity = 1
         var insetValue = (-1 + newValue) * -1 * 100 - 0.00001
-        //var insetValue = (((-1 + newValue) * -1) * 100);
+        // var insetValue = (((-1 + newValue) * -1) * 100);
         insetValue = insetValue.toString() + "%"
         triggerEl.style.webkitClipPath = "inset(" + insetValue + " 0px 0px 0pc)"
         triggerEl.style.mozClipPath = "inset(" + insetValue + " 0px 0px 0pc)"
@@ -282,15 +280,15 @@ var tester = {
     }
   },
 
-  /**
-   * Update a trigger in a binary fashion on the screen.
-   */
+  // Update a trigger in a binary fashion on the screen.
+
   updateTriggerDigital: function (value, gamepadId, id) {
     var gamepadEl = document.querySelector("#gamepad-" + gamepadId)
     var newValue = value
     if (typeof value == "object") {
       var newValue = value.value
     }
+
     // Update the button visually.
 
     var buttonEl = gamepadEl.querySelector('[data-name="' + id + '"]')
@@ -304,9 +302,8 @@ var tester = {
     }
   },
 
-  /**
-   * Update a given analogue stick on the screen.
-   */
+  // Update a given analogue stick on the screen.
+
   updateAxis: function (value, valueV, gamepadId, stickId) {
     var gamepadEl = document.querySelector("#gamepad-" + gamepadId)
 
@@ -333,15 +330,16 @@ var tester = {
         var offsetValH = 0
         var offsetValV = 0
       }
+
       stickEl.style.marginLeft = offsetValH + "px"
       stickEl.style.marginTop = offsetValV + "px"
       if (tester.STICK_CURVING) {
         stickEl.style.transform = "rotateX(" + offsetValV * -1 + "deg) rotateY(" + offsetValH + "deg)"
       }
     }
-    /**
-     * Update stick lateral rotation
-     */
+
+    // Update stick lateral rotation
+
     var stickRotEL = gamepadEl.querySelector('[data-name="' + stickId + '-wheel"]')
     if (stickRotEL) {
       if (lineDistance(value, valueV) >= tester.ANALOGUE_STICK_THRESHOLD) {
@@ -349,19 +347,20 @@ var tester = {
       } else {
         var rotValH = 0
       }
+
       stickRotEL.style.transform = "rotate(" + rotValH * tester.ROTATE_BOUNDARY + "deg)"
     }
   },
 
-  /**
-   * Update a given button on the screen.
-   */
+  // Update a given button on the screen.
+
   updateRawButton: function (value, gamepadId, buttonId) {
     var gamepadEl = document.querySelector("#gamepad-map-" + gamepadId)
     var newValue = value
     if (typeof value == "object") {
       var newValue = value.value
     }
+
     // Update the button visually.
 
     var buttonEl = gamepadEl.querySelector('[data-name="button-' + buttonId + '"]')
@@ -395,21 +394,24 @@ var tester = {
       }
     }
   },
-  /**
-   * Update a given axis value on the screen.
-   */
+
+  // Update a given axis value on the screen.
+
   updateRawAxis: function (value, gamepadId, axisId) {
     var gamepadEl = document.querySelector("#gamepad-map-" + gamepadId)
     var newValue = value
     if (typeof value == "object") {
       var newValue = value.value
     }
+
     // Update the button visually.
 
     var axisEl = gamepadEl.querySelector('[data-name="axis-' + axisId + '"]')
     var mapConfig = document.querySelectorAll("#mapping-config button")
     if (axisEl) {
+
       // Extraneous buttons have just a label.
+
       axisEl.innerHTML = newValue.toFixed(10)
       axisEl.style.opacity = 0.6 + Math.abs(newValue) * 0.4
       if (tester.EVENT_LISTEN) {
@@ -443,7 +445,9 @@ var tester = {
   processQueue: function () {
     var myProcessQueueCall = tester.processQueueCall + 1
     tester.processQueueCall = myProcessQueueCall
-    //while(tester.updateQueue != undefined && tester.updateQueue.peek() != undefined && myProcessQueueCall == tester.processQueueCall) {
+
+    // while(tester.updateQueue != undefined && tester.updateQueue.peek() != undefined && myProcessQueueCall == tester.processQueueCall) {
+
     while (tester.updateQueue != undefined && tester.updateQueue.peek() != undefined && tester.updateQueue.peek()[0] <= Date.now()) {
       var elem = tester.updateQueue.dequeue()
       var vars = elem[2]
@@ -455,8 +459,10 @@ var tester = {
         elem[1](vars[0], vars[1], vars[2])
       }
     }
-    //while(tester.updateQueue != undefined && tester.updateQueue.peek() != undefined && tester.updateQueue.peek()[0] > Date.now() && myProcessQueueCall == tester.processQueueCall) {
+
+    // while(tester.updateQueue != undefined && tester.updateQueue.peek() != undefined && tester.updateQueue.peek()[0] > Date.now() && myProcessQueueCall == tester.processQueueCall) {}
+
     //}
-    //}
+
   },
 }

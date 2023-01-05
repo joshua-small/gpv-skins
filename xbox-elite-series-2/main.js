@@ -24,7 +24,9 @@ $.fn.serializeObject = function () {
   var o = {}
   var a = this.serializeArray()
   $.each(a, function () {
-    //            console.log(this.value);
+
+    // console.log(this.value);
+
     if (this.value !== "undefined" && this.value !== "") {
       o[this.name] = this.value
     }
@@ -41,7 +43,9 @@ $(function () {
   $("#url-form").on("keyup change", function () {
     $("#generate .url").text($.param($("#url-form [name]").serializeObject()))
     $genURL.attr("data-clipboard-text", "https://app.gpv.gg/?" + $.param($("#url-form [name]").serializeObject()))
-    //            console.log($('#url-form').serializeObject());
+
+    // console.log($('#url-form').serializeObject());
+
     return false
   })
 })
@@ -80,7 +84,7 @@ $("#skin-tc").click(function () {
   }, 300)
 })
 
-/*    $("#generated-url").mouseover(function () {
+/* $("#generated-url").mouseover(function () {
  var range, selection;
  window.getSelection && document.createRange ? (selection = window.getSelection(),
  range = document.createRange(),
@@ -90,6 +94,7 @@ $("#skin-tc").click(function () {
  range.moveToElementText($(this)[0]),
  range.select());
  });*/
+
 var mappingTemplate = $("#mapping-config .template .form-group")
 var mappingID = $("#mapping-config")
 function createMapEntry() {
@@ -388,7 +393,7 @@ function changeCssURL(cssURL) {
 
   if (p.test(cssURL)) {
     cssURL = cssURL.replace(p, "https://rawgit.com")
-    //            console.log(cssURL);
+    // console.log(cssURL);
     return cssURL
   } else {
     return cssURL
@@ -398,7 +403,9 @@ function changeCssURL(cssURL) {
 var messages = ['Have you been to our Discord before? We want <a href="https://forms.gle/qhKAKSdxnMQwcR2e8" target="_blank">your feedback</a>!']
 
 var messagesOld = ['Do you create skins? We want <a href="https://forms.gle/TgqirKrzvV14YBnu5" target="_blank">your feedback</a>!', 'GPV is getting an upgrade soon and <a href="https://forms.gle/TgqirKrzvV14YBnu5" target="_blank">needs your feedback</a>!', 'New in this version: <a href="#log">GameCube skin and some better remapping</a>.', "If you refresh the page, you might get a new message!", 'Pro Tip: You can <a href="#about">use Browser Source instead of window capture</a> to show the gamepad', 'Pro Tip: You can access the Gamepad Viewer using <a href="#docs">special parameters</a>', 'Got an issue? <a href="https://discord.gg/0SdzYaRROBqfdd0v">Ask for help in the discord</a>!', 'Like what you see? Why not <a href="#donate">buy me a coffee!</a>', 'Sharing is caring, so <a href="https://twitter.com/intent/tweet?hashtags=gpv&text=Shout%20out%20to%20%40GamepadViewer!%20This%20thing%20is%20the%20bits%20for%20showing%20a%20controller%20on%20stream!%20%F0%9F%8E%AE&url=https%3A%2F%2Fgamepadviewer.com" target="_blank">tweet about the Gamepad Viewer!</a>', 'Join the <a href="https://discord.gg/0SdzYaRROBqfdd0v" target="_blank">Discord Server</a> if you\'re looking for help or want to chat with others!']
-//    var messages = ['Gamepad Viewer Survey: <a href="https://goo.gl/XF4VjL">https://goo.gl/XF4VjL</a>'];
+
+// var messages = ['Gamepad Viewer Survey: <a href="https://goo.gl/XF4VjL">https://goo.gl/XF4VjL</a>'];
+
 var message = messages[Math.floor(Math.random() * messages.length)]
 $(".update div span").html(message)
 
@@ -465,6 +472,7 @@ var controllerRebinds = bindingSettings(getParameterByName("map"))
 //}
 
 //    var noSurvey = getParameterByName('nosurvey');
+
 var noSurvey = 1
 var allowedControllers = {
   0: "xbox white",
@@ -482,7 +490,8 @@ var allowedControllers = {
 var allowedPlayers = [1, 2, 3, 4]
 var skinSwitch = controlType !== "" ? allowedControllers[controlType] : "xbox"
 var gpController = $("#gamepads .controller")
-//    console.log(pnumber);
+
+// console.log(pnumber);
 
 if (pnumber !== "" && $.inArray(pnumber, allowedPlayers !== -1)) {
   $(".hide-me").remove()
@@ -521,13 +530,17 @@ if (rotationStop !== "") {
 }
 
 if (skinStyle !== "") {
-  //        console.log(skinStyle);
+
+  // console.log(skinStyle);
+
   switchClass("#gamepads .controller", skinSwitch, "custom")
   $("#custom-css").append('@import url("' + changeCssURL(skinStyle) + '");')
 }
 
 if (skinEdit !== "") {
-  //        console.log(skinEdit);
+
+  // console.log(skinEdit);
+
   gpController.addClass("edit")
   $("#custom-css").append('@import url("' + changeCssURL(skinEdit) + '");')
 }
@@ -569,25 +582,35 @@ consoleSelect.data("previous-value", $("#cselect").val())
 consoleSelect.toggleClass($("#cselect").val())
 
 // on change
+
 consoleSelect.change(function () {
   var style = $(this).val()
   var previousValue = $(this).data("previous-value")
+
   // do things with the previous value
+
   switchClass("#gamepads .controller", previousValue, style)
   switchClass(this, previousValue, style)
+
   // update previous value
+
   $(this).data("previous-value", $(this).val())
 })
 var bindBase = $("#player-base")
 bindBase.data("previous-value", bindBase.val())
 
 // on change
+
 bindBase.change(function () {
   var id = $(this).val()
   var previousValue = $(this).data("previous-value")
+
   // do things with the previous value
+
   switchClass("#gamepad-map-" + id, "active", "")
   switchClass("#gamepad-map-" + previousValue, "active", "")
+
   // update previous value
+
   $(this).data("previous-value", $(this).val())
 })
