@@ -370,3 +370,31 @@ Note that the rotation of the sticks is hard-coded with javascript, so it applie
 }
 
 /*END PS3 Controller Styling*/
+
+/*START XBOX Elite Series 2 Controller Styling*/
+
+.custom .paddle.small.left {
+}
+
+.custom .paddle.small.right {
+}
+
+.custom .paddle.large.left {
+}
+
+.custom .paddle.large.right {
+}
+
+.custom .paddle.small.left.pressed {
+}
+
+.custom .paddle.small.right.pressed {
+}
+
+.custom .paddle.large.left.pressed {
+}
+
+.custom .paddle.large.right.pressed {
+}
+
+/*END XBOX Elite Series 2 Controller Styling*/
